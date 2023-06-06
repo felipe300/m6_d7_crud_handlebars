@@ -1,24 +1,54 @@
 <table class="table">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Email</th>
-            <th scope="col">Actualizar</th>
-            <th scope="col">Eliminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each usuarios}}
-            <tr>
-                <th scope="row">{{this.id}}</th>
-                <td>{{this.nombre}}</td>
-                <td>{{this.apellido}}</td>
-                <td>{{this.email}}</td>
-                <td><a class="btn btn-warning" href="/updateUser/{{this.id}}">Actualizar</a></td>
-                <td><button class="btn btn-danger">Eliminar</button></td>
-            </tr>
-        {{/each}}
-    </tbody>
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Apellido</th>
+			<th scope="col">Email</th>
+			<th scope="col">Actualizar</th>
+			<th scope="col">Eliminar</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each usuarios}}
+		<tr>
+			<th scope="row">{{this.id}}</th>
+			<td>{{this.nombre}}</td>
+			<td>{{this.apellido}}</td>
+			<td>{{this.email}}</td>
+			<td><a class="btn btn-warning" href="/updateUser/{{this.id}}">Actualizar</a></td>
+			<td><button class="btn btn-danger" onclick="deleteUser('{{this.id}}')">Eliminar</button></td>
+		</tr>
+		{{/each}}
+	</tbody>
 </table>
+
+<script>
+	async function deleteUser (id) {
+		try {
+			const raw = JSON.stringify({
+				"id": id,
+			})
+
+			const myHeaders = new Headers()
+			myHeaders.append("Content-Type", "application/json")
+
+			let response = await fetch(`/usuarios/${id}`, {
+				method: "DELETE",
+				headers: myHeaders,
+				body: raw,
+				redirect: 'follow'
+			})
+
+			let data = await response.json()
+			if (data.code == 200) {
+				alert("Usuario eliminado con éxito.")
+				location.reload()
+			} else {
+				throw new Error("Error al eliminar los datos en la BD.")
+			}
+		} catch (error) {
+			alert(error.message)
+		}
+	}
+</script>

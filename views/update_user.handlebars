@@ -1,6 +1,57 @@
 <h1 class="texr-center">Página de actualización de usuario.</h1>
+<div class='w-75 mx-auto'>
+	<h4 class='text-center'>Formulario de creación de usuarios</h4>
+	<form id='formUpdateUser'>
+		<label class='form-label' for='updateId'>ID</label>
+		<input class='form-control mb-3' type='text' name='updateId' id='updateId' value='{{usuario.id}}' required
+			disabled />
+		<label class='form-label' for='updateNombre'>Nombre</label>
+		<input class='form-control mb-3' type='text' name='updateNombre' id='updateNombre' value='{{usuario.nombre}}'
+			required />
+		<label for='updateApellido'>Apellido</label>
+		<input class='form-control mb-3' type='text' name='updateApellido' id='updateApellido' value='{{usuario.apellido}}'
+			required />
+		<label for='updateEmail'>Email</label>
+		<input class='form-control mb-3' type='email' name='updateEmail' id='updateEmail' value='{{usuario.email}}'
+			required />
+		<button class='btn btn-primary' type='submit'>Crear</button>
+	</form>
+</div>
+<script>
+	let formUpdateUser = document.getElementById("formUpdateUser")
 
-<p>{{usuario.id}}</p>
-<p>{{usuario.nombre}}</p>
-<p>{{usuario.apellido}}</p>
-<p>{{usuario.email}}</p>
+	formUpdateUser.addEventListener("submit", async (event) => {
+		event.preventDefault()
+		console.log("Capturando formulario update")
+		try {
+			const raw = JSON.stringify({
+				"id": updateId.value,
+				"nombre": updateNombre.value,
+				"apellido": updateApellido.value,
+				"email": updateEmail.value
+			})
+
+			const myHeaders = new Headers()
+			myHeaders.append("Content-Type", "application/json")
+
+			let response = await fetch(`/updateuser/${updateId.value}`, {
+				method: "PUT",
+				headers: myHeaders,
+				body: raw,
+				redirect: 'follow'
+			})
+
+			let data = await response.json()
+			if (data.code == 200) {
+				alert("Usuario actualizado con éxito.")
+				formUpdateUser.reset()
+				location.reload()
+			} else {
+				throw new Error("Error al actualizar los datos en la BD.")
+			}
+		} catch (error) {
+			alert(error.message)
+		}
+	})
+
+</script>

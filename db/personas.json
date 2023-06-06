@@ -1,18 +1,6 @@
 {
     "usuarios": [
         {
-            "id": "1",
-            "nombre": "Mauricio",
-            "apellido": "Soto",
-            "email": "mauricio@gmail.com"
-        },
-        {
-            "id": "2",
-            "nombre": "Juan",
-            "apellido": "Pérez",
-            "email": "juan@gmail.com"
-        },
-        {
             "id": "3",
             "nombre": "María",
             "apellido": "Castillo",
@@ -23,12 +11,6 @@
             "nombre": "Nelson",
             "apellido": "Ramírez",
             "email": "nelson@gmail.com"
-        },
-        {
-            "id": "a362d5",
-            "nombre": "Israel",
-            "apellido": "Medoza",
-            "email": "israel@gmail.com"
         }
     ]
 }
